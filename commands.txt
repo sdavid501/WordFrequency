@@ -1,0 +1,47 @@
+The MapReduce function was written in python and interpreted using MRJOB in python 3.
+
+* Pseudo Distribution
+- Open a cmd prompt in the folder containing word frequency.py
+- Command:
+	python wordfrequency.py -r local 100KWikiText.txt -o output
+- The top 100 result will be found in file part-00000 of the output folder
+
+
+* Fully distributed mode:
+- In AWS, setup EMR service
+- Create a cluster:
+	cluster name: wordfreq
+	Applications: Core Hadoop
+	Instance type: m5.xlarge
+	Number of instances: 3 (1 master 2 slaves)
+	Select your EC2 key pair
+	Create Cluster
+- Setup security group for master and slave:
+	click security group for master:
+	Inbound panel: Edit and add rule: ssh tcp 22 Anywhere and save
+	click security group for slave:
+	Inbound panel: Edit and add rule: ssh tcp 22 Anywhere
+- Go to EC2 service, the cluster should be running:
+	get the Public DNS of the master, and run:
+
+- ssh -i ./pair.pem hadoop@DNS (note pair.pem is the pep file of your ec2)
+
+- Open a cmd window in the folder that contains the 100KWikiText.txt and copy it to EMR:
+scp -i pair.pem 100KWikiText.txt hadoop@DNS:100KWikiText.txt
+- also copy the wordfrequency.py file to emr:
+scp -i pair.pem wordfrequency.py hadoop@DNS:wordfrequency.py
+
+- Install MRJOB: pip install mrjob
+- Import mrjob to python: import mrjob
+- python wordfrequency.py -r hadoop 100KWikiText.txt -o result
+- Get result in:
+	hadoop fs -get hdfs:///user/hadoop/result .
+	cd result
+	vi part-00000 (contains the output and save as result2)
+	Download the result:
+scp -i ./pair.pem hadoop@DNS:/home/hadoop/result/part-00000 .
+
+Stop the running instances.
+
+Rename the result file as 100.txt
+ 

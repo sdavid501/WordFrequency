@@ -1,0 +1,31 @@
+
+1. Mapper1:
+- Input: (self, _, line)
+- Output: string, float
+
+2. Reducer1:
+- Input: (self, key, values)
+- Output: string, float
+
+3. Mapper2:
+- Input: (self, key, value)
+- Output: None, list of key and value
+
+4. Reducer2:
+- Input: (self, key, values)
+- Output string, float
+
+*** Hadoop Cluster
+1. Number of VM: 3
+
+** MapReduce1:
+2. Total input files to process : 1
+3. number of splits:8 (2 mappers, 2 reducers)
+4. CPU time spent (ms)=779310
+5. Merged Map outputs=24
+
+** MapReduce2:
+6. Total input files to process : 3
+7. number of splits:9
+8. CPU time spent (ms)=164860
+9. 2 mappers, 1 reducer

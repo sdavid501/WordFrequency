@@ -1,0 +1,21 @@
+Two mapreduce was used to solve this problem. The first mapreduce counts individual frequencies and sum it all together. The second mapreduce sort the output of the first mapreduce, filters out the relative frequencies of 1.0, and writes the top 100 to the file.
+
+Mapreduce 1:
+Mapper:
+1. Get each line in the document
+2. Splits the line by space
+3. For each word, emit the words beside it as a pair with a count of 1.0. Both left and write.
+4. Emit the word with the count of words beside it. It's typically 1 or 2 depending on the position of the word.
+
+Reducer1:
+1. Emit each key with the sum of its values
+
+Mapper2:
+1. Emit None as key, and emit value as an array of the key and value
+
+Reducer2:
+1. Get all single keys into a dictionary, and double keys into a separate dictionary.
+2. Get the frequency of each element in the double keys dictionary by dividing its value with the value of its first word in its key in the single word dictionary
+3. Sort the double keys dictionary by value
+4. Emit the top 100 and filtering out frequencies of 1.0
+ 
